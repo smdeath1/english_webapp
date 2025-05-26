@@ -2,25 +2,26 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EnglishBot</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Английский Бот — Обучение</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Добро пожаловать в обучение!</h1>
+  <h1>Выбор урока</h1>
+  <div class="lesson" onclick="startTest('present-simple')">Present Simple</div>
+  <div class="lesson" onclick="startTest('past-simple')">Past Simple</div>
 
-    <div class="menu">
-      <button onclick="openSection('lessons')">📘 Уроки</button>
-      <button onclick="openSection('tests')">📝 Тесты</button>
-      <button onclick="openSection('vocab')">📚 Словарь</button>
-    </div>
-
-    <div id="content">
-      <p>Выберите раздел, чтобы начать.</p>
-    </div>
+  <div id="test-container" class="hidden">
+    <h2 id="test-title"></h2>
+    <div id="questions"></div>
+    <button onclick="submitTest()">Отправить</button>
   </div>
 
-  <script src="app.js"></script>
+  <div id="result" class="hidden">
+    <h3>Результат:</h3>
+    <p id="result-text"></p>
+    <button onclick="goBack()">Назад к урокам</button>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
