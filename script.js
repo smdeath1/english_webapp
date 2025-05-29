@@ -1,82 +1,84 @@
-const lessons = {
-    "present-simple": {
-      title: "Тест: Present Simple",
-      questions: [
-        {
-          q: "He ___ to school every day.",
-          options: ["go", "goes", "went"],
-          answer: 1
-        },
-        {
-          q: "They ___ not like coffee.",
-          options: ["do", "does", "did"],
-          answer: 0
-        }
-      ]
-    },
-    "past-simple": {
-      title: "Тест: Past Simple",
-      questions: [
-        {
-          q: "She ___ a letter yesterday.",
-          options: ["write", "writes", "wrote"],
-          answer: 2
-        },
-        {
-          q: "We ___ to the cinema last week.",
-          options: ["go", "goes", "went"],
-          answer: 2
-        }
-      ]
-    }
-  };
-  
-  let currentTest = null;
-  
-  function startTest(topic) {
-    currentTest = lessons[topic];
-    document.getElementById("test-title").innerText = currentTest.title;
-  
-    const questionsContainer = document.getElementById("questions");
-    questionsContainer.innerHTML = "";
-  
-    currentTest.questions.forEach((q, index) => {
-      const div = document.createElement("div");
-      div.innerHTML = <p><b>${q.q}</b></p>;
-      q.options.forEach((opt, i) => {
-        div.innerHTML += `
-          <label>
-            <input type="radio" name="q${index}" value="${i}"> ${opt}
-          </label><br>`;
-      });
-      questionsContainer.appendChild(div);
-    });
-  
-    document.querySelectorAll(".lesson").forEach(el => el.classList.add("hidden"));
-    document.getElementById("test-container").classList.remove("hidden");
-  }
-  
-  function submitTest() {
-    let score = 0;
-  
-    currentTest.questions.forEach((q, index) => {
-      const selected = document.querySelector(`input[name="q${index}"]:checked`);
-      if (selected && parseInt(selected.value) === q.answer) {
-        score++;
-      }
-    });
-  
-    const total = currentTest.questions.length;
-    document.getElementById("result-text").innerText = 'Вы набрали ${score} из ${total}';
-  
-    // Сохраняем прогресс в localStorage
-    localStorage.setItem(currentTest.title, `${score}/${total}`);
-  
-    document.getElementById("test-container").classList.add("hidden");
-    document.getElementById("result").classList.remove("hidden");
-  }
-  
-  function goBack() {
-    document.getElementById("result").classList.add("hidden");
-    document.querySelectorAll(".lesson").forEach(el => el.classList.remove("hidden"));
-  }
+body {
+    background-color: #2b2b2b;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.title {
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.nav-buttons button {
+    background-color: #5ea3f3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.section {
+    margin-top: 20px;
+}
+
+.button-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.button-list button {
+    background-color: #cccccc;
+    color: black;
+    margin: 5px 0;
+    padding: 10px;
+    width: 200px;
+    border: none;
+    text-align: left;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.word-area {
+    margin-top: 20px;
+}
+
+#word-to-translate {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#word-options button {
+    background-color: #cccccc;
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.result-popup {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    border-radius: 10px;
+    box-shadow: 0 0 10px white;
+}
