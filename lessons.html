@@ -4,16 +4,77 @@
   <meta charset="UTF-8">
   <title>Уроки</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    ul#lesson-list {
+      padding-left: 20px;
+    }
+
+    ul#lesson-list li {
+      list-style: none;
+      margin-bottom: 10px;
+    }
+
+    ul#lesson-list button {
+      background-color: #e0e0e0;
+      color: black;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      text-align: left;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    ul#lesson-list button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>Уроки</h1>
-    <ul class="lesson-list">
-      <li><button class="lesson-button">Урок 1: Present Simple</button></li>
-      <li><button class="lesson-button" disabled>Урок 2: Past Simple</button></li>
-      <li><button class="lesson-button" disabled>Урок 3: Future Simple</button></li>
-    </ul>
-    <button onclick="location.href='index.html'" class="back-button">Назад</button>
+    <h2>📚 Уроки</h2>
+    <ul id="lesson-list"></ul>
   </div>
+
+  <script>
+    const lessons = [
+      "1. Введение в английский",
+      "2. Глагол to be",
+      "3. Артикли a/an/the",
+      "4. Множественное число существительных",
+      "5. Настоящее простое время"
+    ];
+
+    const passedLessons = JSON.parse(localStorage.getItem("passedLessons")) || [];
+
+    const list = document.getElementById("lesson-list");
+
+    lessons.forEach((lesson, index) => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+
+      btn.textContent = lesson;
+      btn.disabled = index > passedLessons.length;
+
+      btn.onclick = () => {
+        alert(`📖 Урок "${lesson}" открыт!`);
+        if (!passedLessons.includes(index)) {
+          passedLessons.push(index);
+          localStorage.setItem("passedLessons", JSON.stringify(passedLessons));
+          location.reload();
+        }
+      };
+
+      li.appendChild(btn);
+      list.appendChild(li);
+    });
+  </script>
 </body>
 </html>
