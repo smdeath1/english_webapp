@@ -1,26 +1,48 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EnglishBot</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Английский Просто</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Добро пожаловать в обучение!</h1>
+    <h1 class="title">Английский просто</h1>
 
-    <div class="menu">
-      <button onclick="openSection('lessons')">📘 Уроки</button>
-      <button onclick="openSection('tests')">📝 Тесты</button>
-      <button onclick="openSection('vocab')">📚 Словарь</button>
+    <div class="nav-buttons">
+        <button onclick="showSection('lessons')">Уроки</button>
+        <button onclick="showSection('tests')">Проверь себя</button>
+        <button onclick="showSection('words')">Учим слова</button>
     </div>
 
-    <div id="content">
-      <p>Выберите раздел, чтобы начать.</p>
+    <div id="lessons" class="section">
+        <h2>Список уроков</h2>
+        <div id="lesson-list" class="button-list">
+            <!-- Уроки появятся здесь -->
+        </div>
     </div>
-  </div>
 
-  <script src="app.js"></script>
+    <div id="tests" class="section" style="display: none;">
+        <h2>Проверь себя</h2>
+        <div id="test-list" class="button-list">
+            <!-- Тесты появятся здесь -->
+        </div>
+    </div>
+
+    <div id="words" class="section" style="display: none;">
+        <h2>Учим слова</h2>
+        <div class="word-area">
+            <p id="word-to-translate">Слово</p>
+            <div id="word-options">
+                <!-- Варианты ответов -->
+            </div>
+        </div>
+    </div>
+
+    <div id="result" class="result-popup" style="display: none;">
+        <p id="result-message"></p>
+        <button onclick="closeResult()">Закрыть</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
