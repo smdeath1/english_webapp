@@ -2,17 +2,80 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Проверь себя</title>
+  <title>Тесты</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    ul#test-list {
+      padding-left: 20px;
+    }
+
+    ul#test-list li {
+      list-style: none;
+      margin-bottom: 10px;
+    }
+
+    ul#test-list button {
+      background-color: #e0e0e0;
+      color: black;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      text-align: left;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    ul#test-list button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>Проверь себя</h1>
-    <ul class="lesson-list">
-      <li><button class="lesson-button">Тест 1: Present Simple</button></li>
-      <li><button class="lesson-button" disabled>Тест 2: Past Simple</button></li>
-    </ul>
-    <button onclick="location.href='index.html'" class="back-button">Назад</button>
+    <h2>🧠 Проверь себя</h2>
+    <ul id="test-list"></ul>
   </div>
+
+  <script>
+    const tests = [
+      "1. Тест: Введение",
+      "2. Тест: to be",
+      "3. Тест: Артикли",
+      "4. Тест: Множественное число",
+      "5. Тест: Present Simple"
+    ];
+
+    const passedTests = JSON.parse(localStorage.getItem("passedTests")) || [];
+
+    const list = document.getElementById("test-list");
+
+    tests.forEach((test, index) => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+
+      btn.textContent = test;
+      btn.disabled = index > passedTests.length;
+
+      btn.onclick = () => {
+        const correct = confirm(`Тест "${test}" пройден?`);
+        if (correct && !passedTests.includes(index)) {
+          passedTests.push(index);
+          localStorage.setItem("passedTests", JSON.stringify(passedTests));
+          alert("✅ Молодец, тест пройден!");
+          location.reload();
+        }
+      };
+
+      li.appendChild(btn);
+      list.appendChild(li);
+    });
+  </script>
 </body>
 </html>
