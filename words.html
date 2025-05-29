@@ -4,17 +4,83 @@
   <meta charset="UTF-8">
   <title>Учим слова</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+    }
+
+    .word-box {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .answers button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 6px;
+      border: none;
+      background-color: #e0e0e0;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>Учим слова</h1>
-    <p>Пример слова: <strong>Apple</strong></p>
-    <div class="options">
-      <button>Яблоко</button>
-      <button>Апельсин</button>
-      <button>Машина</button>
-    </div>
-    <button onclick="location.href='index.html'" class="back-button">Назад</button>
+    <h2>🗣 Учим слова</h2>
+    <div class="word-box" id="word-box">Загрузка...</div>
+    <div class="answers" id="answer-buttons"></div>
   </div>
+
+  <script>
+    const words = [
+      { word: "apple", correct: "яблоко", options: ["яблоко", "банан", "груша"] },
+      { word: "car", correct: "машина", options: ["машина", "велосипед", "дом"] },
+      { word: "dog", correct: "собака", options: ["кошка", "собака", "птица"] },
+      { word: "sun", correct: "солнце", options: ["луна", "звезда", "солнце"] }
+    ];
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    let used = JSON.parse(localStorage.getItem("usedWords")) || [];
+    const wordBox = document.getElementById("word-box");
+    const answerButtons = document.getElementById("answer-buttons");
+
+    function nextWord() {
+      if (used.length === words.length) {
+        used = [];
+      }
+
+      const available = words.filter((_, i) => !used.includes(i));
+      const index = Math.floor(Math.random() * available.length);
+      const wordData = available[index];
+      const wordIndex = words.indexOf(wordData);
+
+      wordBox.textContent = Переведи: ${wordData.word};
+      answerButtons.innerHTML = "";
+
+      shuffle(wordData.options).forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => {
+          if (option === wordData.correct) {
+            alert("✅ Верно!");
+            used.push(wordIndex);
+            localStorage.setItem("usedWords", JSON.stringify(used));
+          } else {
+            alert("❌ Неверно!");
+          }
+          nextWord();
+        };
+        answerButtons.appendChild(btn);
+      });
+    }
+
+    nextWord();
+  </script>
 </body>
 </html>
